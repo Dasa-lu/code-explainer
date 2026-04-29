@@ -46,7 +46,7 @@ public class ExplainToolWindowFactory implements ToolWindowFactory {
             resultArea.setEditable(false);
             resultArea.setLineWrap(true);
             resultArea.setWrapStyleWord(true);
-            resultArea.setText("Select code in the editor and press Ctrl+Shift+E.");
+            resultArea.setText("Select code in the editor and after right click choose <Explain code>");
             root.add(new JScrollPane(resultArea), BorderLayout.CENTER);
         }
 

@@ -10,7 +10,7 @@ import java.io.IOException;
 public class ClaudeClient {
 
     private static final String API_URL = "https://api.anthropic.com/v1/messages";
-    private static final String MODEL = "claude-3-5-haiku-20241022";
+    private static final String MODEL = "claude-haiku-4-5";
     private static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
 
     private final OkHttpClient httpClient = new OkHttpClient();
@@ -26,9 +26,17 @@ public class ClaudeClient {
      * @throws IOException on network or API error
      */
     public String explain(String apiKey, String level, String selectedCode) throws IOException {
-        String systemPrompt = "You are a code explanation assistant. Explain code clearly and concisely " +
-                "for a " + level + " developer. Focus on what the code does, why it's written this way, " +
-                "and what patterns it uses.";
+        String systemPrompt = "You are a code explanation assistant. Explain code for a " + level + " developer.\n\n" +
+                "Always structure your response exactly like this:\n\n" +
+                "## What it does\n" +
+                "One or two sentences describing the purpose.\n\n" +
+                "## How it works\n" +
+                "Step-by-step breakdown of the logic.\n\n" +
+                "## Key concepts\n" +
+                "Patterns, techniques, or language features used.\n\n" +
+                "## " + getLevelTip(level) + "\n" +
+                getLevelTipContent(level) + "\n\n" +
+                "Keep the explanation concise and relevant to a " + level + " developer.";
 
         JsonObject userMessage = new JsonObject();
         userMessage.addProperty("role", "user");
@@ -62,8 +70,26 @@ public class ClaudeClient {
             }
             JsonObject json = gson.fromJson(response.body().string(), JsonObject.class);
             return json.getAsJsonArray("content")
-                       .get(0).getAsJsonObject()
-                       .get("text").getAsString();
+                    .get(0).getAsJsonObject()
+                    .get("text").getAsString();
         }
+    }
+
+    private String getLevelTip(String level) {
+        return switch (level) {
+            case "Junior" -> "Good to know";
+            case "Mid"    -> "Worth considering";
+            case "Senior" -> "Trade-offs";
+            default       -> "Notes";
+        };
+    }
+
+    private String getLevelTipContent(String level) {
+        return switch (level) {
+            case "Junior" -> "A beginner-friendly tip or common mistake to avoid.";
+            case "Mid"    -> "Alternative approaches or potential improvements.";
+            case "Senior" -> "Performance, scalability, or design considerations.";
+            default       -> "";
+        };
     }
 }
