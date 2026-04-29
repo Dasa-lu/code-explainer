@@ -1,0 +1,45 @@
+<idea-plugin>
+    <id>com.example.codeexplainer</id>
+    <name>Code Explainer</name>
+    <version>1.0.0</version>
+    <vendor>Example</vendor>
+
+    <description>Explains selected code using Claude AI. Junior / Mid / Senior levels.</description>
+
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+
+        <!-- Settings page: Preferences → Tools → Code Explainer -->
+        <applicationConfigurable
+                parentId="tools"
+                id="com.example.codeexplainer.settings"
+                displayName="Code Explainer"
+                instance="com.example.codeexplainer.settings.AppSettingsConfigurable"/>
+
+        <!-- Side panel tool window -->
+        <toolWindow
+                id="Code Explainer"
+                anchor="right"
+                factoryClass="com.example.codeexplainer.toolwindow.ExplainToolWindowFactory"
+                icon="/icons/pluginIcon.svg"/>
+
+        <!-- Notification group for balloon warnings -->
+        <notificationGroup
+                id="Code Explainer"
+                displayType="BALLOON"/>
+
+    </extensions>
+
+    <actions>
+        <action
+                id="com.example.codeexplainer.ExplainAction"
+                class="com.example.codeexplainer.actions.ExplainAction"
+                text="Explain Code"
+                description="Explain selected code with Claude AI">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl shift E"/>
+        </action>
+    </actions>
+
+</idea-plugin>
