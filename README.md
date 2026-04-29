@@ -4,7 +4,7 @@ An IntelliJ IDEA plugin that explains selected code using the Claude AI API. Cho
 
 
 **Demo**
-- Select any code in the editor, press Ctrl+Shift+E, and the explanation appears instantly in the side panel.
+- Select any code in the editor, press right-click and select "Explain code", and the explanation appears instantly in the side panel.
 <img width="1395" height="676" alt="image" src="https://github.com/user-attachments/assets/d7b0becb-7dda-4e65-9148-2192d6a6b721" />
 
 **Features**
@@ -73,8 +73,8 @@ Paste your Anthropic API key
 - Run ./gradlew runIde
 - Open any project in the sandboxed IntelliJ instance
 - Select a code snippet in the editor
-- Press Ctrl+Shift+E (or right-click → Explain Code)
 - Pick a level in the Code Explainer panel: Junior / Mid / Senior
+- Right-click → Explain Code
 - Read the explanation in the side panel
 
 
